@@ -1,5 +1,11 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, doc, setDoc } from "firebase/firestore";
+import {
+  getFirestore,
+  collection,
+  doc,
+  setDoc,
+  getDoc,
+} from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDlZt9G0JmJ_RPVBY1Db3sPzj8IckCU53c",
@@ -16,6 +22,8 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+
+// ---------------------------- Products --------------------------------
 
 try {
   await setDoc(doc(db, "products", "Milk"), {
@@ -41,6 +49,7 @@ try {
   console.error("Error adding eggs: ", e);
 }
 
+// ---------------------------- Suppliers --------------------------------
 try {
   await setDoc(doc(db, "supplier", "Milk"), {
     supplierID: 1,
@@ -61,6 +70,49 @@ try {
   console.log("Egg Inc. added");
 } catch (e) {
   console.error("Error adding Egg Inc.: ", e);
+}
+
+// ---------------------------- ProductSupplier --------------------------------
+try {
+  const docSnapMilk = await getDoc(doc(db, "products", "Milk"));
+  const docSnapMilkSupplier = await getDoc(doc(db, "supplier", "Milk"));
+
+  if (docSnapMilk.exists() && docSnapMilkSupplier.exists()) {
+    const productID = docSnapMilk.data().productID;
+    const supplierID = docSnapMilkSupplier.data().supplierID;
+
+    await setDoc(doc(db, "productSupplier", "Milk"), {
+      productID: productID,
+      supplierID: supplierID,
+    });
+    console.log("Milk supplier added");
+  } else {
+    // doc.data() will be undefined in this case
+    console.log("No milk or supplier!");
+  }
+} catch (e) {
+  console.error("Error adding milk supplier: ", e);
+}
+
+try {
+  const docSnapEggs = await getDoc(doc(db, "products", "Eggs"));
+  const docSnapEggsSupplier = await getDoc(doc(db, "supplier", "Eggs"));
+
+  if (docSnapEggs.exists() && docSnapEggsSupplier.exists()) {
+    const productID = docSnapEggs.data().productID;
+    const supplierID = docSnapEggsSupplier.data().supplierID;
+
+    await setDoc(doc(db, "productSupplier", "Eggs"), {
+      productID: productID,
+      supplierID: supplierID,
+    });
+    console.log("Eggs supplier added");
+  } else {
+    // doc.data() will be undefined in this case
+    console.log("No eggs or supplier!");
+  }
+} catch (e) {
+  console.error("Error adding eggs supplier: ", e);
 }
 
 // exit the program
