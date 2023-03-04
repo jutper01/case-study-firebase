@@ -17,6 +17,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+// ---------------------------- Products --------------------------------
 try {
   await deleteDoc(doc(db, "products", "Milk"));
   console.log("Milk successfully deleted!");
@@ -29,6 +30,36 @@ try {
   console.log("Eggs successfully deleted!");
 } catch (e) {
   console.error("Error removing eggs: ", e);
+}
+
+// ---------------------------- Suppliers --------------------------------
+try {
+  await deleteDoc(doc(db, "supplier", "Milk"));
+  console.log("Milk supplier successfully deleted!");
+} catch (e) {
+  console.error("Error removing milk supplier: ", e);
+}
+
+try {
+  await deleteDoc(doc(db, "supplier", "Eggs"));
+  console.log("Eggs supplier successfully deleted!");
+} catch (e) {
+  console.error("Error removing eggs supplier: ", e);
+}
+
+// ---------------------------- ProductSuppliers --------------------------------
+try {
+  await deleteDoc(doc(db, "productSupplier", "Milk"));
+  console.log("Milk product supplier successfully deleted!");
+} catch (e) {
+  console.error("Error removing milk product supplier: ", e);
+}
+
+try {
+  await deleteDoc(doc(db, "productSupplier", "Eggs"));
+  console.log("Eggs product supplier successfully deleted!");
+} catch (e) {
+  console.error("Error removing eggs product supplier: ", e);
 }
 
 // exit the program
