@@ -86,5 +86,28 @@ try {
   console.error("Error reading productSupplier: ", e);
 }
 
+// ---------------------------- Orders --------------------------------
+try {
+  const docSnapMilk = await getDoc(doc(db, "orders", "Milk"));
+  const docSnapEggs = await getDoc(doc(db, "orders", "Eggs"));
+
+  if (docSnapMilk.exists()) {
+    console.log("Milk order data:", docSnapMilk.data());
+  } else {
+    // doc.data() will be undefined in this case
+    console.log("No milk order!");
+  }
+
+  if (docSnapEggs.exists()) {
+    console.log("Eggs order data:", docSnapEggs.data());
+  } else {
+    // doc.data() will be undefined in this case
+    console.log("No eggs order!");
+  }
+  console.log();
+} catch (e) {
+  console.error("Error reading orders: ", e);
+}
+
 // exit the program
 process.exit(0);

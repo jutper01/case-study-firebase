@@ -109,5 +109,32 @@ try {
   console.error("Error adding eggs supplier: ", e);
 }
 
+// ---------------------------- Orders --------------------------------
+try {
+  const docSnapMilk = await getDoc(doc(db, "products", "Milk"));
+
+  await setDoc(doc(db, "orders", "Milk"), {
+    orderID: 99,
+    productID: docSnapMilk.data().productID,
+    quantity: 5,
+  });
+  console.log("Milk order added");
+} catch (e) {
+  console.error("Error adding milk order: ", e);
+}
+
+try {
+  const docSnapEggs = await getDoc(doc(db, "products", "Eggs"));
+
+  await setDoc(doc(db, "orders", "Eggs"), {
+    orderID: 100,
+    productID: docSnapEggs.data().productID,
+    quantity: 10,
+  });
+  console.log("Eggs order added");
+} catch (e) {
+  console.error("Error adding eggs order: ", e);
+}
+
 // exit the program
 process.exit(0);

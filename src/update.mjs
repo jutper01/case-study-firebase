@@ -76,11 +76,6 @@ try {
     const eggsProductID = docSnapEggs.data().productID;
     const eggsSupplierID = docSnapEggsSupplier.data().supplierID;
 
-    console.log("Milk productID: ", milkProductID);
-    console.log("Milk supplierID: ", milkSupplierID);
-    console.log("Eggs productID: ", eggsProductID);
-    console.log("Eggs supplierID: ", eggsSupplierID);
-
     await updateDoc(doc(db, "productSupplier", "Milk"), {
       productID: milkProductID,
       supplierID: milkSupplierID,
@@ -98,6 +93,31 @@ try {
 
 } catch (e) {
   console.error("Error product suppliers: ", e);
+}
+
+// ---------------------------- Orders --------------------------------
+try {
+  const docSnapMilk = await getDoc(doc(db, "products", "Milk"));
+  const docSnapEggs = await getDoc(doc(db, "products", "Eggs"));
+
+  if (docSnapMilk.exists() && docSnapEggs.exists()) {
+    const milkProductID = docSnapMilk.data().productID;
+    const eggsProductID = docSnapEggs.data().productID;
+
+    await updateDoc(doc(db, "orders", "Milk"), {
+      productID: milkProductID,
+      quantity: 20,
+    });
+    console.log("Milk order successfully updated!");
+
+    await updateDoc(doc(db, "orders", "Eggs"), {
+      productID: eggsProductID,
+      quantity: 100,
+    });
+    console.log("Egg order successfully updated!");
+  }
+} catch (e) {
+  console.error("Error updating orders: ", e);
 }
 
 // exit the program

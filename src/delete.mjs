@@ -62,5 +62,20 @@ try {
   console.error("Error removing eggs product supplier: ", e);
 }
 
+// ---------------------------- Orders --------------------------------
+try {
+  await deleteDoc(doc(db, "orders", "Milk"));
+  console.log("Milk order successfully deleted!");
+} catch (e) {
+  console.error("Error removing milk order: ", e);
+}
+
+try {
+  await deleteDoc(doc(db, "orders", "Eggs"));
+  console.log("Eggs order successfully deleted!");
+} catch (e) {
+  console.error("Error removing eggs order: ", e);
+}
+
 // exit the program
 process.exit(0);
